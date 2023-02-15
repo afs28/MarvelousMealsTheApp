@@ -1,1 +1,2 @@
 test fyrir guthub -Birgitta
+test fyrir guthub -Heba
