@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MarvelousMeals</string>
+    <string name="main_menu_testing">Welcome to Marvelous Meals!</string>
+
 </resources>
