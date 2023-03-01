@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     */
 
-    //private List<Recipe> mRecipeList;
-
-    private RecyclerView mRecipeList;
+    private List<Recipe> mRecipeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(List<Recipe> result) {
                 //hvað viljum við gera þegar við fáum listann af Recipes.
                 //viljum setja það í eitthvað eins og RecyclerView
-                mRecipeList = (RecyclerView) result;
-                //mQuestionBank = result;
+                mRecipeList = result;
             }
-
             @Override
             public void onFailure(String errorString) {
                 Log.e(TAG, errorString);
