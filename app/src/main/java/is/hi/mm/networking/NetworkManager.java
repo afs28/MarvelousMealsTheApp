@@ -16,40 +16,38 @@ import is.hi.mm.entities.Recipe;
 
 public class NetworkManager {
     private static final String BASE_URL = "https://hugbo-production.up.railway.app/";
-    private static NetworkManager mInstance;
-    private static RequestQueue mQueue;
+    private static NetworkManager sInstance;
+    private static RequestQueue sQueue;
     private Context mContext;
 
     public static synchronized NetworkManager getInstance(Context context) {
-        if(mInstance == null) {
-            mInstance = new NetworkManager(context);
+        if(sInstance == null) {
+            sInstance = new NetworkManager(context);
         }
-        return mInstance;
+        return sInstance;
     }
 
     private NetworkManager(Context context) {
         mContext = context;
-        mQueue = getRequestQueue();
+        sQueue = getRequestQueue();
     }
 
     public RequestQueue getRequestQueue() {
-        if (mQueue == null) {
-            mQueue = Volley.newRequestQueue(mContext.getApplicationContext());
+        if (sQueue == null) {
+            sQueue = Volley.newRequestQueue(mContext.getApplicationContext());
         }
-        return mQueue;
+        return sQueue;
     }
 
     public void getRecipes(NetworkCallback<List<Recipe>> callback) {
         StringRequest request = new StringRequest(
-                Request.Method.GET, BASE_URL + "index", new Response.Listener<String>() {
+                Request.Method.GET, BASE_URL + "", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Recipe>>(){}.getType();
-                //List<Question> questionBank = gson.fromJson(response, listType);
-                //List<Recipe> findAll() = gson.fromJson(response, listType);
-                //callback.onSuccess(questionBank);
-                //callback.onSuccess();
+                List<Recipe> recipe = gson.fromJson(response, listType);
+                callback.onSuccess(recipe);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -58,6 +56,6 @@ public class NetworkManager {
             }
         }
         );
-        mQueue.add(request);
+        sQueue.add(request);
     }
 }
