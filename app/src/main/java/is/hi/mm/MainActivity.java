@@ -3,20 +3,16 @@ package is.hi.mm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
+import android.widget.SearchView;
+import java.util.ArrayList;
 import java.util.List;
-
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "MainActivity";
 
@@ -24,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter mAdapter;
 
     private List<Recipe> mRecipeList;
+
+    private List<Recipe> mFilteredRecipeList;
+
+    private String mQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Recipe> result) {
                 mRecipeList = result;
-                mAdapter = new RecipeAdapter(MainActivity.this, mRecipeList);
+                mFilteredRecipeList = new ArrayList<>(mRecipeList);
+                mAdapter = new RecipeAdapter(MainActivity.this, mFilteredRecipeList);
                 mRecipeListRecyclerView.setAdapter(mAdapter);
             }
 
@@ -48,6 +49,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Add code for button onClick listener and other TODO items.
+        // Set up SearchView
+        SearchView searchView = findViewById(R.id.mRecipeSearch);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // Not needed for this implementation
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // Update the query field
+        mQuery = newText;
+        // Call the filter method with the updated query
+        filter(mQuery);
+        return true;
+    }
+
+    private void filter(String query) {
+        mFilteredRecipeList.clear();
+        for (Recipe recipe : mRecipeList) {
+            if (recipe.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                mFilteredRecipeList.add(recipe);
+            }
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }
+
