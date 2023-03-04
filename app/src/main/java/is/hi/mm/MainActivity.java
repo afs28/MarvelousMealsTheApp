@@ -3,6 +3,8 @@ package is.hi.mm;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
@@ -22,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private List<Recipe> mRecipeList;
 
     private List<Recipe> mFilteredRecipeList;
-
-    private String mQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         // Update the query field
-        mQuery = newText;
         // Call the filter method with the updated query
-        filter(mQuery);
+        filter(newText);
         return true;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void filter(String query) {
         mFilteredRecipeList.clear();
         for (Recipe recipe : mRecipeList) {
