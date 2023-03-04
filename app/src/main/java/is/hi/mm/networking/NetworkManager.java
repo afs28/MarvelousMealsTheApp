@@ -1,6 +1,8 @@
 package is.hi.mm.networking;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,7 +17,7 @@ import java.util.List;
 import is.hi.mm.entities.Recipe;
 
 public class NetworkManager {
-    private static final String BASE_URL = "https://hugbo-production.up.railway.app/";
+    private static final String BASE_URL = "https://hugbo-production.up.railway.app";
     private static NetworkManager sInstance;
     private static RequestQueue sQueue;
     private Context mContext;
@@ -42,11 +44,12 @@ public class NetworkManager {
     public void getRecipes(NetworkCallback<List<Recipe>> callback) {
         StringRequest request = new StringRequest(
                 //þetta mapping er ekki rétt. Þurfum að laga það: + "/index"
-                Request.Method.GET, BASE_URL + "index", new Response.Listener<String>() {
+                Request.Method.GET, BASE_URL + "/api/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Recipe>>(){}.getType();
+                System.out.println(response);
                 List<Recipe> recipe = gson.fromJson(response, listType);
                 callback.onSuccess(recipe);
             }
