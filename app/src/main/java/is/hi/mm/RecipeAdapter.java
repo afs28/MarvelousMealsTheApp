@@ -1,9 +1,11 @@
 package is.hi.mm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,10 +69,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mRecipeNameTextView;
+        private Button mRecipeButton;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             mRecipeNameTextView = itemView.findViewById(R.id.recipe_name_text_view);
+            mRecipeButton = itemView.findViewById(R.id.recipe_button);
+
+            mRecipeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, ViewRecipeActivity.class);
+                    intent.putExtra("recipe_name", mRecipeNameTextView.getText().toString());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         public void bindRecipe(Recipe recipe) {

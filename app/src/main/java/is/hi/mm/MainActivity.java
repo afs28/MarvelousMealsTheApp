@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -37,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 mRecipeList = result;
                 mAdapter = new RecipeAdapter(MainActivity.this, mRecipeList);
                 mRecipeListRecyclerView.setAdapter(mAdapter);
-
-                // Accessing the first recipe in the list
-                Recipe firstRecipe = mRecipeList.get(0);
-
-                // Printing the description of the first recipe
-                Log.d(TAG, "Description of the first recipe: " + firstRecipe.getDescription());
             }
 
             @Override
