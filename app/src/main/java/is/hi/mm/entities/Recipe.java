@@ -25,10 +25,11 @@ public class Recipe {
     @SerializedName("prepTime")
     private Integer prepTime;
 
-    public Recipe(Long recipeID, String title, String description) {
+    public Recipe(Long recipeID, String title, String description, String difficultyLevel) {
         this.recipeID = recipeID;
         this.title = title;
         this.description = description;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public Recipe(Long recipeID){
