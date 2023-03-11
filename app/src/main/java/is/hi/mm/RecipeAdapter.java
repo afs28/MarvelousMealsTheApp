@@ -1,8 +1,8 @@
 package is.hi.mm;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,7 @@ import is.hi.mm.networking.NetworkManager;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    private final Context mContext;
+    private Context mContext;
     private List<Recipe> mRecipeList;
 
     public RecipeAdapter(Context context, List<Recipe> recipeList) {
@@ -30,7 +30,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private void loadRecipes() {
         NetworkManager.getInstance(mContext).getRecipes(new NetworkCallback<List<Recipe>>() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(List<Recipe> result) {
                 mRecipeList = result;
@@ -48,7 +47,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
-        return new RecipeViewHolder(view);
+        RecipeViewHolder viewHolder = new RecipeViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -68,23 +68,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView mRecipeNameTextView;
+        private TextView mRecipeNameTextView;
+        private Button mRecipeButton;
+        private Long mRecipeID;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
-            mRecipeNameTextView = itemView.findViewById(R.id.recipe_name_text_view);
-            Button recipeButton = itemView.findViewById(R.id.recipe_button);
+            mRecipeNameTextView = itemView.findViewById(R.id.recipe_name_text);
+            mRecipeButton = itemView.findViewById(R.id.recipe_button);
 
-            recipeButton.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, ViewRecipeActivity.class);
-                intent.putExtra("recipe_name", mRecipeNameTextView.getText().toString());
-                mContext.startActivity(intent);
+            mRecipeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, ViewRecipeActivity.class);
+                    intent.putExtra("recipe_id", mRecipeID); // pass the recipe ID to the activity
+                    mContext.startActivity(intent);
+                }
             });
         }
 
         public void bindRecipe(Recipe recipe) {
+            mRecipeID = recipe.getRecipeID(); // set the recipe ID
             mRecipeNameTextView.setText(recipe.getTitle());
         }
     }
+
 
 }

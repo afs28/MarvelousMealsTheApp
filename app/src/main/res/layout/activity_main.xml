@@ -29,7 +29,7 @@
         app:layout_constraintVertical_bias="0.955" />
 
     <TextView
-        android:id="@+id/recipe_name_text_view"
+        android:id="@+id/recipe_name_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -49,7 +49,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recipe_name_text_view"
+        app:layout_constraintTop_toBottomOf="@id/recipe_name_text"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <SearchView
