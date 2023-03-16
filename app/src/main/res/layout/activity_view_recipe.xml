@@ -52,11 +52,33 @@
                 tools:text="Recipe Description" />
 
             <TextView
+                android:id="@+id/allergy_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/allergy_tag"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingTop="15dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Allergy factors:" />
+
+            <TextView
                 android:id="@+id/recipe_allergy_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:text="Allergy Factors" />
+
+            <TextView
+                android:id="@+id/difficulty_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/difficulty_tag"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Difficulty level:" />
 
             <TextView
                 android:id="@+id/recipe_difficulty_level_text_view"
@@ -66,12 +88,33 @@
                 tools:text="Difficulty Level" />
 
             <TextView
+                android:id="@+id/ratings_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:text="@string/ratings_tag"
+                tools:text="Ratings:" />
+
+            <TextView
                 android:id="@+id/recipe_ratings_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:text="Ratings" />
+
+            <TextView
+                android:id="@+id/comments_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comments_tag"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Comments:" />
 
             <TextView
                 android:id="@+id/recipe_comments_text_view"

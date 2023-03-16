@@ -4,5 +4,10 @@
     <string name="view_menu_testing">Welcome to this recipe!</string>
     <string name="view_recipe">View Recipe</string>
     <string name="loginButton">Login</string>
+    <string name="comments_tag">Comments:</string>
+    <string name="ratings_tag">Ratings:</string>
+    <string name="difficulty_tag">Difficulty level:</string>
+    <string name="allergy_tag">Allergy factors:</string>
+    <string name="description_tag">Description:</string>
 
 </resources>
