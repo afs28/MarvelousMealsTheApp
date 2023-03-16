@@ -3,5 +3,6 @@
     <string name="main_menu_testing">Welcome to Marvelous Meals!</string>
     <string name="view_menu_testing">Welcome to this recipe!</string>
     <string name="view_recipe">View Recipe</string>
+    <string name="loginButton">Login</string>
 
 </resources>

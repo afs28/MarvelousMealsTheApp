@@ -24,80 +24,64 @@
         app:layout_constraintVertical_bias="0.155" />
         -->
 
-    <TextView
-        android:id="@+id/recipe_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_description_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Recipe Title" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="45dp">
 
-    <TextView
-        android:id="@+id/recipe_description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_difficulty_level_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_title_text_view"
-        tools:text="Recipe Description" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/recipe_difficulty_level_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_allergy_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_description_text_view"
-        tools:text="Difficulty Level" />
+            <TextView
+                android:id="@+id/recipe_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:text="Recipe Title" />
 
-    <TextView
-        android:id="@+id/recipe_allergy_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_comments_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_difficulty_level_text_view"
-        tools:text="Allergy Factors" />
+            <TextView
+                android:id="@+id/recipe_description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Recipe Description" />
 
-    <TextView
-        android:id="@+id/recipe_comments_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_ratings_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_allergy_text_view"
-        tools:text="Comments" />
+            <TextView
+                android:id="@+id/recipe_allergy_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Allergy Factors" />
 
-    <TextView
-        android:id="@+id/recipe_ratings_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipe_comments_text_view"
-        tools:text="Ratings" />
+            <TextView
+                android:id="@+id/recipe_difficulty_level_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Difficulty Level" />
+
+            <TextView
+                android:id="@+id/recipe_ratings_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Ratings" />
+
+            <TextView
+                android:id="@+id/recipe_comments_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Comments" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

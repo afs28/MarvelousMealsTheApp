@@ -10,7 +10,7 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/loginButton"
         android:layout_gravity="end"
         tools:ignore="MissingConstraints" />
 
@@ -28,12 +28,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecipeList"
         android:layout_width="304dp"
-        android:layout_height="424dp"
+        android:layout_height="470dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/recipe_name_text"
@@ -63,12 +64,11 @@
         android:id="@+id/mRecipeSearch"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="57dp"
-        tools:layout_editor_absoluteY="1dp"
+        android:layout_marginTop="152dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
