@@ -14,11 +14,13 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
 import is.hi.mm.entities.Recipe;
+import is.hi.mm.entities.RecipeUser;
 import is.hi.mm.networking.NetworkCallback;
 
 
@@ -97,4 +99,73 @@ public class NetworkManager {
         );
         sQueue.add(request);
     }
+
+    public void signup(String name, String password, NetworkCallback<String> callback) {
+        String url = BASE_URL + "/api/signup";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("name", name);
+            jsonBody.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.e("signup", "name: " + name);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println(response);
+                        callback.onSuccess(response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onFailure(error.getMessage());
+                    }
+                }
+        );
+        Log.e("POST", "request url: " + request.getUrl());
+        Log.e("POST", "request method: " + request.getMethod());
+        //Log.e("POST", "request headers: " + request.getHeaders());
+        Log.e("POST", "request body: " + jsonBody.toString());
+        getRequestQueue().add(request);
+    }
+
+
+    /*public void login(String username, String password, NetworkCallback<RecipeUser> callback) {
+        String url = BASE_URL + "/api/login";
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("recipeUsername", username);
+            requestBody.put("recipePassword", password);
+        } catch (Exception e) {
+            callback.onFailure("Error creating request body: " + e.getMessage());
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST, url, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gson gson = new Gson();
+                        RecipeUser user = gson.fromJson(response.toString(), RecipeUser.class);
+                        callback.onSuccess(user);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onFailure(error.getMessage());
+                    }
+                }
+        );
+        getRequestQueue().add(request);
+    }*/
 }

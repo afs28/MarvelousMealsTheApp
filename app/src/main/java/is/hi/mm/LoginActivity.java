@@ -1,8 +1,10 @@
 package is.hi.mm;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -11,13 +13,23 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import is.hi.mm.entities.RecipeUser;
+import is.hi.mm.networking.NetworkCallback;
+import is.hi.mm.networking.NetworkManager;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mName;
 
     private EditText mPassword;
 
-    private Button mSubmitButton;
+    private Button mLoginButton;
+
+    private EditText mSignupName;
+
+    private EditText mSignupPassword;
+
+    private Button mSignupButton;
 
 
 
@@ -26,34 +38,59 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mName = findViewById(R.id.login_username);
-        mPassword = findViewById(R.id.login_password);
-        mSubmitButton = findViewById(R.id.login_button);
+        //signup:
+        mSignupName = findViewById(R.id.signup_username);
+        mSignupPassword = findViewById(R.id.signup_password);
+        mSignupButton = findViewById(R.id.signup_button);
 
-        mSubmitButton = findViewById(R.id.login_button);
+        mSignupButton = findViewById(R.id.signup_button);
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+        mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkDataEntered();
-                //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                signup();
+            }
+        });
+
+        //login:
+        mName = findViewById(R.id.login_username);
+        mPassword = findViewById(R.id.login_password);
+        mLoginButton = findViewById(R.id.login_button);
+
+        mLoginButton = findViewById(R.id.login_button);
+
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
 
-    boolean isEmpty(EditText text) {
-        CharSequence str = text.getText().toString();
-        return TextUtils.isEmpty(str);
-    }
+    private void signup() {
+        String name = mSignupName.getText().toString();
+        String password = mSignupPassword.getText().toString();
 
-    void checkDataEntered() {
-        if (isEmpty(mName)) {
-            mName.setError("name is required");
+        Log.e("signup", "mSignupName: " + name);
+
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
+            return;
         }
-        if (isEmpty(mPassword)) {
-            mPassword.setError("password is required");
-        }
+
+        Context context = getApplicationContext();
+        NetworkManager networkManager = NetworkManager.getInstance(context);
+        networkManager.signup(name, password, new NetworkCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                Toast.makeText(LoginActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(LoginActivity.this, "Signup failed: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -67,4 +104,5 @@ public class LoginActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
