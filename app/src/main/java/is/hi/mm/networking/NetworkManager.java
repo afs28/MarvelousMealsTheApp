@@ -19,10 +19,11 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
+
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.entities.RecipeUser;
 import is.hi.mm.networking.NetworkCallback;
-
 
 public class NetworkManager {
     private static final String BASE_URL = "https://hugbo-production.up.railway.app";
@@ -31,7 +32,7 @@ public class NetworkManager {
     private Context mContext;
 
     public static synchronized NetworkManager getInstance(Context context) {
-        if(sInstance == null) {
+        if (sInstance == null) {
             sInstance = new NetworkManager(context);
         }
         return sInstance;
@@ -109,6 +110,9 @@ public class NetworkManager {
             jsonBody.put("recipeUserPassword", recipeUserPassword);
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("NetworkManager", "eeeeeeeeeeeeeeeeError creating JSON body: " + e.getMessage());
+            callback.onFailure("helloimtheerrorError creating JSON body: " + e.getMessage());
+            return;
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -116,18 +120,28 @@ public class NetworkManager {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println(response);
+                        if (response == null || response.length() == 0) {
+                            callback.onFailure("Received an empty response from the server.");
+                            return;
+                        }
+                        System.out.println("onresponse: " + response);
                         callback.onSuccess(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse == null && error.networkResponse.statusCode == 409) {
-                            callback.onFailure("The chosen username is already in use. Please choose a different one.");
+                        if (error.networkResponse != null) {
+                            int statusCode = error.networkResponse.statusCode;
+                            if (statusCode == 409) {
+                                callback.onFailure("The chosen username is already in use. Please choose a different one.");
+                            } else {
+                                callback.onFailure("Error: " + statusCode + " " + error.getMessage());
+                            }
                         } else {
-                            callback.onFailure(error.getMessage());
+                            callback.onFailure("An unknown error occurred: " + error.getMessage());
                         }
+                        Log.e("NetworkManager", "Error in signup: " + error.toString());
                     }
                 }
         );
@@ -159,10 +173,21 @@ public class NetworkManager {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.onFailure(error.getMessage());
+                        if (error.networkResponse != null) {
+                            int statusCode = error.networkResponse.statusCode;
+                            if (statusCode == 409) {
+                                callback.onFailure("The chosen username is already in use. Please choose a different one.");
+                            } else {
+                                callback.onFailure("Error: " + statusCode + " " + error.getMessage());
+                            }
+                        } else {
+                            callback.onFailure("An unknown error occurred: " + error.getMessage());
+                        }
+                        Log.e("NetworkManager", "Error in signup: " + error.toString());
                     }
                 }
         );
         getRequestQueue().add(request);
     }
 }
+

@@ -20,18 +20,9 @@ import is.hi.mm.networking.NetworkManager;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mName;
-
     private EditText mPassword;
-
-    private Button mLoginButton;
-
     private EditText mSignupName;
-
     private EditText mSignupPassword;
-
-    private Button mSignupButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +32,16 @@ public class LoginActivity extends AppCompatActivity {
         //signup:
         mSignupName = findViewById(R.id.signup_username);
         mSignupPassword = findViewById(R.id.signup_password);
-        mSignupButton = findViewById(R.id.signup_button);
+        Button signupButton = findViewById(R.id.signup_button);
 
-        mSignupButton = findViewById(R.id.signup_button);
-
-        mSignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signup();
-            }
-        });
+        signupButton.setOnClickListener(v -> signup());
 
         //login:
         mName = findViewById(R.id.login_username);
         mPassword = findViewById(R.id.login_password);
-        mLoginButton = findViewById(R.id.login_button);
+        Button loginButton = findViewById(R.id.login_button);
 
-        mLoginButton = findViewById(R.id.login_button);
-
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        loginButton.setOnClickListener(v -> login());
     }
 
     private void signup() {
@@ -93,6 +70,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void login() {
+        String username = mName.getText().toString();
+        String password = mPassword.getText().toString();
+
+        Log.e("login", "mLoginName: " + username);
+
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Please enter all the required fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        NetworkManager networkManager = NetworkManager.getInstance(getApplicationContext());
+        networkManager.login(username, password, new NetworkCallback<RecipeUser>() {
+            @Override
+            public void onSuccess(RecipeUser user) {
+                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                // Navigate to another activity after successful login, e.g., MainActivity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(LoginActivity.this, "Login failed: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -104,5 +109,4 @@ public class LoginActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
