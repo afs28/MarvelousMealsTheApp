@@ -100,18 +100,16 @@ public class NetworkManager {
         sQueue.add(request);
     }
 
-    public void signup(String name, String password, NetworkCallback<String> callback) {
-        String url = BASE_URL + "/api/signup";
+    public void signup(String recipeUsername, String recipeUserPassword, NetworkCallback<String> callback) {
+        String url = BASE_URL + "/api/signup/";
 
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("name", name);
-            jsonBody.put("password", password);
+            jsonBody.put("recipeUsername", recipeUsername);
+            jsonBody.put("recipeUserPassword", recipeUserPassword);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Log.e("signup", "name: " + name);
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST, url, jsonBody,
@@ -125,25 +123,24 @@ public class NetworkManager {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.onFailure(error.getMessage());
+                        if (error.networkResponse == null && error.networkResponse.statusCode == 409) {
+                            callback.onFailure("The chosen username is already in use. Please choose a different one.");
+                        } else {
+                            callback.onFailure(error.getMessage());
+                        }
                     }
                 }
         );
-        Log.e("POST", "request url: " + request.getUrl());
-        Log.e("POST", "request method: " + request.getMethod());
-        //Log.e("POST", "request headers: " + request.getHeaders());
-        Log.e("POST", "request body: " + jsonBody.toString());
         getRequestQueue().add(request);
     }
 
-
-    /*public void login(String username, String password, NetworkCallback<RecipeUser> callback) {
-        String url = BASE_URL + "/api/login";
+    public void login(String username, String password, NetworkCallback<RecipeUser> callback) {
+        String url = BASE_URL + "/api/login/";
 
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("recipeUsername", username);
-            requestBody.put("recipePassword", password);
+            requestBody.put("recipeUserPassword", password);
         } catch (Exception e) {
             callback.onFailure("Error creating request body: " + e.getMessage());
             return;
@@ -167,5 +164,5 @@ public class NetworkManager {
                 }
         );
         getRequestQueue().add(request);
-    }*/
+    }
 }
