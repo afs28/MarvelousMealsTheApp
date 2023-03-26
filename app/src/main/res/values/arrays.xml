@@ -1,0 +1,24 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="light_dark_entries">
+        <item>System (Default)</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
+    </string-array>
+
+    <string-array name="light_dark_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+</resources>

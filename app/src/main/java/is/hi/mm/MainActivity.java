@@ -1,11 +1,13 @@
 package is.hi.mm;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,7 +25,6 @@ import java.util.regex.Pattern;
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
-
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "MainActivity";
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private String mQuery = "";
 
     private Button mLoginButton;
+    private Button mSettingsButton;
 
 
     @Override
@@ -46,11 +48,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
 
         mLoginButton = findViewById(R.id.login_button);
+        mSettingsButton = findViewById(R.id.settings_button);
 
+        // login button
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // settings button
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
@@ -77,6 +90,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Set up SearchView
         SearchView searchView = findViewById(R.id.mRecipeSearch);
         searchView.setOnQueryTextListener(this);
+
+        // set Light/Dark Mode
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SettingsActivity.setTheme(sharedPreferences);
     }
 
     @Override
@@ -108,14 +125,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void filter(String query, String difficulty) {
         Log.d(TAG, "Filtering with query: " + query + " and difficulty: " + difficulty);
         List<Recipe> filteredList = new ArrayList<>();
-        for (Recipe recipe : mRecipeList) {
-            if (query.isEmpty() || recipe.getTitle().toLowerCase().contains(query.toLowerCase())) {
-                if (difficulty.isEmpty() || recipe.getDifficultyLevel().equalsIgnoreCase(difficulty)) {
-                    filteredList.add(recipe);
+        if (!(mRecipeList == null)) {
+            for (Recipe recipe : mRecipeList) {
+                if (query.isEmpty() || recipe.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    if (difficulty.isEmpty() || recipe.getDifficultyLevel().equalsIgnoreCase(difficulty)) {
+                        filteredList.add(recipe);
+                    }
                 }
             }
+            mAdapter.setRecipeList(filteredList);
         }
-        mAdapter.setRecipeList(filteredList);
+
+
     }
 
 }
