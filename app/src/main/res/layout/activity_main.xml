@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mRecipeSearch"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -65,6 +65,7 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="152dp"
+        app:layout_constraintBottom_toTopOf="@+id/mRecipeList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
