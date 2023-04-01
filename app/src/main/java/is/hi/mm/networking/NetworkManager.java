@@ -6,8 +6,6 @@ import android.util.Log;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -19,11 +17,9 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Objects;
 
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.entities.RecipeUser;
-import is.hi.mm.networking.NetworkCallback;
 
 public class NetworkManager {
     private static final String BASE_URL = "https://hugbo-production.up.railway.app";
@@ -90,16 +86,19 @@ public class NetworkManager {
         sQueue.add(request);
     }
 
-    public void createRecipe(Recipe recipe, NetworkCallback<Recipe> callback) {
+    public void createRecipe(String title, String description, String difficultyLevel, String allergyFactors, String image, String numbOfPeople, String prepTime, NetworkCallback<Recipe> callback) {
         String url = BASE_URL + "/api/create";
 
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("title", recipe.getTitle());
-            jsonBody.put("description", recipe.getDescription());
-            jsonBody.put("difficultyLevel", recipe.getDifficultyLevel());
-            jsonBody.put("allergyFactors", recipe.getAllergyFactors());
-            jsonBody.put("recipeID", recipe.getRecipeID());
+            jsonBody.put("title", title);
+            jsonBody.put("description", description);
+            jsonBody.put("difficultyLevel", difficultyLevel);
+            jsonBody.put("allergyFactors", allergyFactors);
+            jsonBody.put("image", image);
+            jsonBody.put("numbOfPeople", numbOfPeople);
+            jsonBody.put("prepTime", prepTime);
+
         } catch (JSONException e) {
             e.printStackTrace();
             callback.onFailure("Error creating JSON body: " + e.getMessage());

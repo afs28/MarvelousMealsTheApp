@@ -4,6 +4,7 @@
     <string name="view_menu_testing">Welcome to this recipe!</string>
     <string name="view_recipe">View Recipe</string>
     <string name="login_button">Login</string>
+    <string name="create_recipe_button">Add recipe</string>
     <string name="comments_tag">Comments:</string>
     <string name="ratings_tag">Ratings:</string>
     <string name="difficulty_tag">Difficulty level:</string>
@@ -35,6 +36,8 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="settings_title">Settings</string>
+    <string name="view_recipe_button">View Recipe</string>
+    <string name="add_recipe">Add recipe</string>
 
 
 </resources>

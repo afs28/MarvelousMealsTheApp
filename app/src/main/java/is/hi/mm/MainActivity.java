@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private List<Recipe> mFilteredRecipeList;
 
-    private Button mAddRecipeButton;
 
 
     @Override
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Button loginButton = findViewById(R.id.login_button);
         Button settingsButton = findViewById(R.id.settings_button);
+        Button createRecipeButton = findViewById(R.id.create_recipe_button);
 
         // login button
         loginButton.setOnClickListener(v -> {
@@ -57,6 +57,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // settings button
         settingsButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
+        // create recipe button
+        createRecipeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
             startActivity(intent);
         });
 

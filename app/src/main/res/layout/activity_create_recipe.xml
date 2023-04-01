@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/recipe_title"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:height="50dp"
+                android:hint="Title"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/recipe_description"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Description" />
+
+            <EditText
+                android:id="@+id/recipe_difficulty_level"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Difficulty level" />
+
+            <EditText
+                android:id="@+id/recipe_allergy_factors"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Allery factors" />
+
+            <EditText
+                android:id="@+id/recipe_comments"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Author's comment" />
+
+            <EditText
+                android:id="@+id/recipe_ratings"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Author's rating" />
+
+            <EditText
+                android:id="@+id/recipe_image"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Image of Recipe(string for now)" />
+
+            <EditText
+                android:id="@+id/recipe_fornumberofpeople"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="For Number Of People" />
+
+            <EditText
+                android:id="@+id/recipe_prep_time"
+                android:layout_width="380dp"
+                android:layout_height="100dp"
+                android:height="48dp"
+                android:hint="Preparation Time" />
+
+            <!-- Add more fields as needed -->
+
+            <Button
+                android:id="@+id/submit_recipe_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

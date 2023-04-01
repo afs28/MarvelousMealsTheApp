@@ -22,6 +22,9 @@
             android:name=".SearchRecipeActivity"
             android:exported="false" />
         <activity
+            android:name=".CreateRecipeActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ViewRecipeActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
