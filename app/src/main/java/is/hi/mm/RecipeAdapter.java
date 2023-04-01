@@ -2,7 +2,6 @@ package is.hi.mm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import is.hi.mm.networking.NetworkManager;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    private Context mContext;
+    private final Context mContext;
     private List<Recipe> mRecipeList;
 
     public RecipeAdapter(Context context, List<Recipe> recipeList) {
@@ -47,8 +46,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
-        RecipeViewHolder viewHolder = new RecipeViewHolder(view);
-        return viewHolder;
+        return new RecipeViewHolder(view);
     }
 
     @Override
@@ -71,22 +69,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mRecipeNameTextView;
-        private Button mRecipeButton;
+        private final TextView mRecipeNameTextView;
         private Long mRecipeID;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             mRecipeNameTextView = itemView.findViewById(R.id.recipe_name_text);
-            mRecipeButton = itemView.findViewById(R.id.recipe_button);
+            Button recipeButton = itemView.findViewById(R.id.recipe_button);
 
-            mRecipeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ViewRecipeActivity.class);
-                    intent.putExtra("recipe_id", mRecipeID); // pass the recipe ID to the activity
-                    mContext.startActivity(intent);
-                }
+            recipeButton.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ViewRecipeActivity.class);
+                intent.putExtra("recipe_id", mRecipeID); // pass the recipe ID to the activity
+                mContext.startActivity(intent);
             });
         }
 

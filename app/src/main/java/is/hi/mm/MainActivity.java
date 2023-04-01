@@ -1,28 +1,28 @@
 package is.hi.mm;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import is.hi.mm.entities.Recipe;
+import is.hi.mm.entities.RecipeUser;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -36,10 +36,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private List<Recipe> mFilteredRecipeList;
 
-    private String mQuery = "";
-
-    private Button mLoginButton;
-    private Button mSettingsButton;
+    private Button mAddRecipeButton;
 
 
     @Override
@@ -47,25 +44,20 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLoginButton = findViewById(R.id.login_button);
-        mSettingsButton = findViewById(R.id.settings_button);
+        Button loginButton = findViewById(R.id.login_button);
+        Button settingsButton = findViewById(R.id.settings_button);
 
         // login button
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+        loginButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
 
+
         // settings button
-        mSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         });
 
         mRecipeListRecyclerView = findViewById(R.id.mRecipeList);
@@ -110,15 +102,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         Pattern pattern = Pattern.compile("\\b(easy|medium|hard)\\b", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
         if (matcher.find()) {
-            difficulty = matcher.group(1).toLowerCase();
+            difficulty = Objects.requireNonNull(matcher.group(1)).toLowerCase();
             query = query.replaceFirst("(?i)" + difficulty, "").trim();
         }
 
         // Update the query field
-        mQuery = query;
+        String query1 = query;
 
         // Call the filter method with the updated query and difficulty level
-        filter(mQuery, difficulty);
+        filter(query1, difficulty);
         return true;
     }
 
@@ -137,6 +129,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
 
 
+    }
+
+    private SharedPreferences getSharedPrefs() {
+        return getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+    }
+
+    private void onLoginSuccess(RecipeUser user) {
+        SharedPreferences.Editor editor = getSharedPrefs().edit();
+        editor.putLong("loggedInUserId", user.getRecipeUserID());
+        // Store other information if needed
+        editor.apply();
+        // Continue with any other login success actions
     }
 
 }

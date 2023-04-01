@@ -9,12 +9,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.List;
-
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 
 public class ViewRecipeActivity extends AppCompatActivity {
@@ -26,7 +23,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private TextView mRecipeCommentsTextView;
     private TextView mRecipeRatingsTextView;
 
-    private Long mRecipeID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +31,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_recipe);
 
         Intent intent = getIntent();
-        mRecipeID = intent.getLongExtra("recipe_id", -1);
+        Long recipeID = intent.getLongExtra("recipe_id", -1);
 
         //Log.d("ViewRecipeActivity", "mRecipeID: " + mRecipeID);
         //Log.e("ViewRecipeActivity", "mRecipeID: " + mRecipeID);
@@ -50,7 +47,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
         NetworkManager networkManager = NetworkManager.getInstance(context);
-        networkManager.getRecipeById(mRecipeID, new NetworkCallback<Recipe>() {
+        networkManager.getRecipeById(recipeID, new NetworkCallback<Recipe>() {
             @Override
             public void onSuccess(Recipe recipe) {
                 //Log.e("ViewRecipeActivity", "onSuccess method called");
