@@ -38,6 +38,9 @@
     <string name="settings_title">Settings</string>
     <string name="view_recipe_button">View Recipe</string>
     <string name="add_recipe">Add recipe</string>
+    <string name="image">Image</string>
+    <string name="for_number_of_people">For number of people:</string>
+    <string name="prep_time">Prep time:</string>
 
 
 </resources>

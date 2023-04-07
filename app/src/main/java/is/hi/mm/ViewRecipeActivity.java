@@ -2,12 +2,15 @@ package is.hi.mm;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,10 +25,12 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private TextView mRecipeDescriptionTextView;
     private TextView mRecipeDifficultyLevelTextView;
     private TextView mRecipeRecipeAllergyTextView;
-    private TextView mRecipeCommentsTextView;
+    private TextView mRecipeImageTextView;
+    private TextView mRecipeNumbOfPeopleTextView;
+    private TextView mRecipePrepTimeTextView;
     private TextView mRecipeRatingsTextView;
+    private RecyclerView mRecyclerView;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe);
@@ -37,8 +42,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
         mRecipeDescriptionTextView = findViewById(R.id.recipe_description_text_view);
         mRecipeDifficultyLevelTextView = findViewById(R.id.recipe_difficulty_level_text_view);
         mRecipeRecipeAllergyTextView = findViewById(R.id.recipe_allergy_text_view);
-        mRecipeCommentsTextView = findViewById(R.id.recipe_comments_text_view);
+        mRecipeImageTextView = findViewById(R.id.recipe_image_text_view);
+        mRecipeNumbOfPeopleTextView = findViewById(R.id.recipe_fornumberofpeople_text_view);
+        mRecipePrepTimeTextView = findViewById(R.id.recipe_prep_time_text_view);
         mRecipeRatingsTextView = findViewById(R.id.recipe_ratings_text_view);
+        mRecyclerView = findViewById(R.id.comments_recycler_view);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         Context context = getApplicationContext();
         NetworkManager networkManager = NetworkManager.getInstance(context);
@@ -52,14 +63,13 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 mRecipeDescriptionTextView.setText(recipe.getDescription());
                 mRecipeDifficultyLevelTextView.setText(recipe.getDifficultyLevel());
                 mRecipeRecipeAllergyTextView.setText(recipe.getAllergyFactors());
+                mRecipeImageTextView.setText(recipe.getImageOfRecipe());
+                mRecipeNumbOfPeopleTextView.setText(String.valueOf(recipe.getForNumberOfPeople()));
+                mRecipePrepTimeTextView.setText(String.valueOf(recipe.getPrepTime()));
                 mRecipeRatingsTextView.setText(String.valueOf(recipe.getRatings()));
 
-                // Display comments
-                StringBuilder commentsText = new StringBuilder();
-                for (String comment : comments) {
-                    commentsText.append(comment).append("\n\n");
-                }
-                mRecipeCommentsTextView.setText(commentsText.toString());
+                CommentAdapter commentAdapter = new CommentAdapter(comments);
+                mRecyclerView.setAdapter(commentAdapter);
             }
 
             @Override

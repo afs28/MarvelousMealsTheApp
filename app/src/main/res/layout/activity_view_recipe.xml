@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,20 +7,6 @@
     android:paddingTop="45dp"
     android:paddingBottom="16dp"
     tools:context=".ViewRecipeActivity">
-
-    <!--
-    <TextView/>
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_menu_testing"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
-        -->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -85,6 +69,57 @@
                 tools:text="Difficulty Level" />
 
             <TextView
+                android:id="@+id/image_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Image:" />
+
+            <TextView
+                android:id="@+id/recipe_image_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Image:" />
+
+            <TextView
+                android:id="@+id/fornumberofpeople_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/for_number_of_people"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="For number of people:" />
+
+            <TextView
+                android:id="@+id/recipe_fornumberofpeople_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="For number of people:" />
+
+            <TextView
+                android:id="@+id/preptime_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prep_time"
+                android:textStyle="bold"
+                android:paddingTop="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Prep time:" />
+
+            <TextView
+                android:id="@+id/recipe_prep_time_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Prep time:" />
+
+            <TextView
                 android:id="@+id/ratings_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,15 +146,11 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:text="Comments:" />
 
-            <TextView
-                android:id="@+id/recipe_comments_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                tools:text="Comments" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comments_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
