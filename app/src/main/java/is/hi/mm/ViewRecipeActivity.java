@@ -1,6 +1,7 @@
 package is.hi.mm;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +10,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.List;
+
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
-
 
 public class ViewRecipeActivity extends AppCompatActivity {
 
@@ -23,8 +25,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
     private TextView mRecipeCommentsTextView;
     private TextView mRecipeRatingsTextView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +33,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Long recipeID = intent.getLongExtra("recipe_id", -1);
 
-        //Log.d("ViewRecipeActivity", "mRecipeID: " + mRecipeID);
-        //Log.e("ViewRecipeActivity", "mRecipeID: " + mRecipeID);
-
         mRecipeTitleTextView = findViewById(R.id.recipe_title_text_view);
         mRecipeDescriptionTextView = findViewById(R.id.recipe_description_text_view);
         mRecipeDifficultyLevelTextView = findViewById(R.id.recipe_difficulty_level_text_view);
@@ -43,22 +40,26 @@ public class ViewRecipeActivity extends AppCompatActivity {
         mRecipeCommentsTextView = findViewById(R.id.recipe_comments_text_view);
         mRecipeRatingsTextView = findViewById(R.id.recipe_ratings_text_view);
 
-        //Log.e("ViewRecipeActivityView", "mRecipeTitleTextView: " + mRecipeTitleTextView);
-
         Context context = getApplicationContext();
         NetworkManager networkManager = NetworkManager.getInstance(context);
-        networkManager.getRecipeById(recipeID, new NetworkCallback<Recipe>() {
+        networkManager.getRecipeWithCommentsById(recipeID, new NetworkCallback<Pair<Recipe, List<String>>>() {
             @Override
-            public void onSuccess(Recipe recipe) {
-                //Log.e("ViewRecipeActivity", "onSuccess method called");
+            public void onSuccess(Pair<Recipe, List<String>> result) {
+                Recipe recipe = result.first;
+                List<String> comments = result.second;
+
                 mRecipeTitleTextView.setText(recipe.getTitle());
                 mRecipeDescriptionTextView.setText(recipe.getDescription());
                 mRecipeDifficultyLevelTextView.setText(recipe.getDifficultyLevel());
                 mRecipeRecipeAllergyTextView.setText(recipe.getAllergyFactors());
-                mRecipeCommentsTextView.setText(recipe.getComments());
                 mRecipeRatingsTextView.setText(String.valueOf(recipe.getRatings()));
-                //Log.e("ViewRecipeActivityTitle", "mRecipeTitleTextView: " + mRecipeTitleTextView);
-                //Log.e("ViewRecipeActivityDes", "mRecipeDescriptionTextView: " + mRecipeDescriptionTextView);
+
+                // Display comments
+                StringBuilder commentsText = new StringBuilder();
+                for (String comment : comments) {
+                    commentsText.append(comment).append("\n\n");
+                }
+                mRecipeCommentsTextView.setText(commentsText.toString());
             }
 
             @Override

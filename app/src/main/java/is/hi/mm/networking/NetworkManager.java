@@ -3,6 +3,8 @@ package is.hi.mm.networking;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.core.util.Pair;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import is.hi.mm.entities.Recipe;
 import is.hi.mm.entities.RecipeUser;
@@ -46,32 +49,6 @@ public class NetworkManager {
         return sQueue;
     }
 
-    //TODO: Þurfum við ekki að setja inn comments og ratings hér?
-    public void getRecipeById(Long recipeID, NetworkCallback<Recipe> callback) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET, BASE_URL + "/api/" + recipeID, null,
-                response -> {
-                    Gson gson = new Gson();
-                    Recipe recipe = gson.fromJson(response.toString(), Recipe.class);
-                    Log.d("NetworkManager", "response: " + response);
-                    System.out.println(response);
-                    callback.onSuccess(recipe);
-                    System.out.println(response);
-                },
-                error -> {
-                    NetworkResponse response = error.networkResponse;
-                    if (response != null) {
-                        int statusCode = response.statusCode;
-                        Log.e("NetworkManager", "Error response status code: " + statusCode);
-                    }
-                    callback.onFailure(error.getMessage());
-                }
-        );
-        getRequestQueue().add(request);
-    }
-
-    //TODO: Þurfum við ekki að setja inn comments og ratings hér líka?
-
     public void getRecipes(NetworkCallback<List<Recipe>> callback) {
         StringRequest request = new StringRequest(
                 //þetta mapping er ekki rétt. Þurfum að laga það: + "/index"
@@ -84,6 +61,32 @@ public class NetworkManager {
                 }, error -> callback.onFailure(error.toString())
         );
         sQueue.add(request);
+    }
+
+    public void getRecipeWithCommentsById(Long recipeID, NetworkCallback<Pair<Recipe, List<String>>> callback) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET, BASE_URL + "/api/" + recipeID, null,
+                response -> {
+                    Gson gson = new Gson();
+                    Type mapType = new TypeToken<Map<String, Object>>() {}.getType();
+                    Map<String, Object> result = gson.fromJson(response.toString(), mapType);
+                    Log.d("NetworkManager", "response: " + response);
+                    System.out.println(response);
+                    Recipe recipe = gson.fromJson(gson.toJson(result.get("recipe")), Recipe.class);
+                    List<String> comments = gson.fromJson(gson.toJson(result.get("comments")), new TypeToken<List<String>>() {}.getType());
+                    callback.onSuccess(new Pair<>(recipe, comments));
+                    System.out.println(response);
+                },
+                error -> {
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null) {
+                        int statusCode = response.statusCode;
+                        Log.e("NetworkManager", "Error response status code: " + statusCode);
+                    }
+                    callback.onFailure(error.getMessage());
+                }
+        );
+        getRequestQueue().add(request);
     }
 
     public void createRecipe(String title, String description, String difficultyLevel, String allergyFactors, String image, String numbOfPeople, String prepTime, NetworkCallback<Recipe> callback) {
