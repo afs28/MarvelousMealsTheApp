@@ -3,6 +3,7 @@ package is.hi.mm.services;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
@@ -70,5 +71,15 @@ public class UserService {
                 Toast.makeText(activity, "Login failed: " + error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public static void logout(Activity activity) {
+        PreferencesService.ClearUserPreference(activity);
+
+        // starting mainactivity after
+        // clearing values in shared preferences.
+        Intent i = new Intent(activity, MainActivity.class);
+        activity.startActivity(i);
+        ((Activity) activity).finish();
     }
 }

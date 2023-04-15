@@ -42,6 +42,21 @@ public class PreferencesService {
         editor.apply();
 
     }
+    public static void ClearUserPreference(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // calling method to edit values in shared prefs.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // below line will clear
+        // the data in shared prefs.
+        editor.clear();
+
+        // below line will apply empty
+        // data to shared prefs.
+        editor.apply();
+
+    }
 
     public static void setTheme(SharedPreferences sharedPreferences) {
         // Set the theme based on the saved preference or the system's night mode setting

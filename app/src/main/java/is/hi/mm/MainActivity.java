@@ -26,6 +26,7 @@ import is.hi.mm.entities.RecipeUser;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
 import is.hi.mm.services.PreferencesService;
+import is.hi.mm.services.UserService;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -76,25 +77,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (pref_username != null && pref_password != null) {
             // change login to logout
             loginButton.setText(R.string.logout_button);
-            loginButton.setOnClickListener(v -> {
-                // calling method to edit values in shared prefs.
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                // below line will clear
-                // the data in shared prefs.
-                editor.clear();
-
-                // below line will apply empty
-                // data to shared prefs.
-                editor.apply();
-
-                // restarting mainactivity after
-                // clearing values in shared preferences.
-                Intent i = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
-            });
-            // create recipe button
+            loginButton.setOnClickListener(v -> UserService.logout(this));
+            // allow create recipe button to work
             createRecipeButton.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
                 startActivity(intent);
