@@ -36,6 +36,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private List<Recipe> mFilteredRecipeList;
 
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing email.
+    public static final String USERNAME_KEY = "username_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
+
+    // variable for shared preferences.
+    SharedPreferences sharedpreferences;
+    String pref_username, pref_password;
+
 
 
     @Override
@@ -43,15 +56,60 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // initializing our shared preferences.
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
+        // getting data from shared prefs and
+        // storing it in our string variable.
+        pref_username = sharedpreferences.getString(USERNAME_KEY, null);
+        pref_password = sharedpreferences.getString(PASSWORD_KEY, null);
+
+
         Button loginButton = findViewById(R.id.login_button);
         Button settingsButton = findViewById(R.id.settings_button);
         Button createRecipeButton = findViewById(R.id.create_recipe_button);
 
-        // login button
-        loginButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        });
+        // if logged in
+        Log.e("MainCreate", "pref_username: " + pref_username);
+        if (pref_username != null && pref_password != null) {
+            // change login to logout
+            loginButton.setText(R.string.logout_button);
+            loginButton.setOnClickListener(v -> {
+                // calling method to edit values in shared prefs.
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                // below line will clear
+                // the data in shared prefs.
+                editor.clear();
+
+                // below line will apply empty
+                // data to shared prefs.
+                editor.apply();
+
+                // restarting mainactivity after
+                // clearing values in shared preferences.
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            });
+            // create recipe button
+            createRecipeButton.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
+                startActivity(intent);
+            });
+        } else {
+            // login button
+            loginButton.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+            // make recipe button redirect to login
+            createRecipeButton.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+        }
+
 
 
         // settings button
@@ -60,11 +118,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             startActivity(intent);
         });
 
-        // create recipe button
-        createRecipeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
-            startActivity(intent);
-        });
+
 
         mRecipeListRecyclerView = findViewById(R.id.mRecipeList);
         mRecipeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -136,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
     }
-
+/*
     private SharedPreferences getSharedPrefs() {
         return getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
     }
@@ -148,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         editor.apply();
         // Continue with any other login success actions
     }
+
+ */
 
 }
 
