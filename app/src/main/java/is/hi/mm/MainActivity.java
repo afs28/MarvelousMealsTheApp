@@ -25,6 +25,8 @@ import is.hi.mm.entities.Recipe;
 import is.hi.mm.entities.RecipeUser;
 import is.hi.mm.networking.NetworkCallback;
 import is.hi.mm.networking.NetworkManager;
+import is.hi.mm.services.PreferencesService;
+
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "MainActivity";
@@ -144,8 +146,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchView.setOnQueryTextListener(this);
 
         // set Light/Dark Mode
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SettingsActivity.setTheme(sharedPreferences);
+        PreferencesService.SetSettings(this);
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //SettingsActivity.setTheme(sharedPreferences);
     }
 
     @Override
