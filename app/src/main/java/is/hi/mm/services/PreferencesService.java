@@ -10,12 +10,19 @@ import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import is.hi.mm.R;
-import is.hi.mm.SettingsActivity;
 
 /**
  * Used for SettingsActivity as well as app settings in general.
  */
 public class PreferencesService {
+    // creating constant keys for shared preferences.
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    // key for storing username.
+    public static final String USERNAME_KEY = "username_key";
+
+    // key for storing password.
+    public static final String PASSWORD_KEY = "password_key";
     /**
      * Use this to set the settings.
      * @param context put 'this' in here.
@@ -23,6 +30,17 @@ public class PreferencesService {
     public static void SetSettings(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         setTheme(sharedPreferences);
+    }
+
+    public static void SetUserPreference(Context context, String username, String password) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        // below two lines will put values for
+        // email and password in shared preferences.
+        editor.putString(USERNAME_KEY, username);
+        editor.putString(PASSWORD_KEY, password);
+        editor.apply();
+
     }
 
     public static void setTheme(SharedPreferences sharedPreferences) {
